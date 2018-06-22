@@ -1,0 +1,20 @@
+#!/bin/bash
+
+prefFile="/Library/Preferences/BZdeployer"
+installScript="/Library/Scripts/backblaze-deployer.sh"
+log="/Library/Scripts/bz/bzinstall.log"
+installTrigger="/Library/Scripts/bz/.trigger"
+
+chmod 777 /Library/Scripts/bz
+touch "${log}"
+chmod 666 "${log}"
+
+touch "${prefFile}.plist"
+chmod 777 "${prefFile}.plist"
+
+chown root:wheel "${installScript}"
+chmod 4775 "${installScript}"
+
+# purge trigger file and load launchdaemon
+rm -f ${installTrigger}
+launchctl load -w /Library/LaunchDaemons/com.github.sphen13.backblaze-deployer.plist
